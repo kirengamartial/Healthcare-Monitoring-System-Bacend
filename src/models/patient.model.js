@@ -13,6 +13,11 @@ const patientSchema = new mongoose.Schema({
     default: 'Stable'
   },
   doctor: { type: String, required: true },
+  createdBy: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User',
+    required: true 
+  },
   lastVisit: { 
     type: Date, 
     default: Date.now 

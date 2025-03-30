@@ -3,6 +3,7 @@ const cors = require('cors');
 const patientRoutes = require('./routes/patient.routes');
 const errorHandler = require('./middleware/error.middleware');
 const userRoutes = require('./routes/authentication.routes')
+const notificationRoutes = require('./routes/notification.routes');
 require('dotenv').config();
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use('/api/patients', patientRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 app.use(errorHandler);
 
