@@ -24,7 +24,7 @@ exports.createPatient = async (req, res) => {
   }
 };
 
-exports.getPatients = async (req, res) => {
+exports.getPatientsByDoctor = async (req, res) => {
   try {
     const { search } = req.query;
     let query = { createdBy: req.user.id };
@@ -55,3 +55,37 @@ exports.getPatientById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getAllPatients = async (req, res) => {
+  try {
+    const { search, page = 1, limit = 10 } = req.query;
+
+    const query = {};
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const skip = (page - 1) * limit;
+
+    const patients = await Patient.find(query)
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await Patient.countDocuments(query);
+
+    res.json({
+      patients,
+      total,
+      page: Number(page),
+      totalPages: Math.ceil(total / limit)
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+

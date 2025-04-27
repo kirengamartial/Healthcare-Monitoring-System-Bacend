@@ -7,6 +7,5 @@ exports.createPatientSchema = Joi.object({
   contact: Joi.string().required(),
   email: Joi.string().email().required(),
   status: Joi.string().valid('Stable', 'Critical', 'Recovery').default('Stable'),
-  doctor: Joi.string().required(),
   lastVisit: Joi.date().default(Date.now)
 });

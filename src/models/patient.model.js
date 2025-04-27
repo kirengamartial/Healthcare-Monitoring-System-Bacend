@@ -12,7 +12,6 @@ const patientSchema = new mongoose.Schema({
     enum: ['Stable', 'Critical', 'Recovery'],
     default: 'Stable'
   },
-  doctor: { type: String, required: true },
   createdBy: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User',
