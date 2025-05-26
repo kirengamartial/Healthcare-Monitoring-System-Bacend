@@ -1,0 +1,82 @@
+config:
+  target: "http://localhost:3000/api"
+  phases:
+    - name: "100 users"
+      duration: 60
+      arrivalRate: 2
+      maxVusers: 100
+
+    - name: "200 users"
+      duration: 60
+      arrivalRate: 4
+      maxVusers: 200
+
+    - name: "500 users"
+      duration: 60
+      arrivalRate: 9
+      maxVusers: 500
+
+    - name: "1000 users"
+      duration: 60
+      arrivalRate: 17
+      maxVusers: 1000
+
+    - name: "2000 users"
+      duration: 60
+      arrivalRate: 34
+      maxVusers: 2000
+
+    - name: "5000 users"
+      duration: 60
+      arrivalRate: 84
+      maxVusers: 5000
+
+    - name: "10000 users"
+      duration: 60
+      arrivalRate: 167
+      maxVusers: 10000
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Patient Management Flow"
+    flow:
+      # Login as doctor
+      - post:
+          url: "/auth/login"
+          json:
+            email: "doctor@test.com"
+            password: "Password123!"
+          capture:
+            - json: "$.token"
+              as: "token"
+
+      # Get patients list
+      - get:
+          url: "/patients"
+          headers:
+            Authorization: "Bearer {{ token }}"
+
+      # Create new patient
+      - post:
+          url: "/patients"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          json:
+            name: "Test Patient"
+            age: 35
+            gender: "Male"
+            contact: "+1234567890"
+            email: "patient{{ $randomNumber(1,1000000) }}@test.com"
+            status: "Stable"
+
+      # Search patients
+      - get:
+          url: "/patients?search=Test"
+          headers:
+            Authorization: "Bearer {{ token }}"
+
+      # Small delay to simulate user think time
+      - think: 2
