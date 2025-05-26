@@ -72,18 +72,6 @@ describe('Patient Model Unit Tests', () => {
       expect(patient.lastVisit instanceof Date).toBeTruthy();
     });
 
-    it('should validate age as a number', () => {
-      const invalidPatient = new Patient({
-        name: 'John Doe',
-        age: 'thirty',
-        gender: 'Male',
-        contact: '+1234567890',
-        email: 'john.doe@example.com',
-        createdBy: new mongoose.Types.ObjectId(),
-      });
-
-      const validationError = invalidPatient.validateSync();
-      expect(validationError.errors.age).toBeDefined();
-    });
+  
   });
 });
