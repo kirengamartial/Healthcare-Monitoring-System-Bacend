@@ -12,7 +12,6 @@
     "test:coverage": "jest --coverage",
     "test:unit": "jest \".*\\.unit\\.test\\.js$\"",
     "test:integration": "jest \".*\\.integration\\.test\\.js$\"",
-    "test:e2e": "jest \".*\\.e2e\\.test\\.js$\"",
     "test:performance": "artillery run ./tests/performance/load-test.yml",
     "test:perf:100": "artillery run --target \"http://localhost:3000/api\" --phase \"100 users\" ./tests/performance/load-test.yml",
     "test:perf:200": "artillery run --target \"http://localhost:3000/api\" --phase \"200 users\" ./tests/performance/load-test.yml",
